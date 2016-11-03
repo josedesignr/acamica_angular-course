@@ -1,6 +1,6 @@
 
 
-angular.module('cityApp', ['cityApp.controllers', 'ngRoute'])
+angular.module('cityApp', ['cityApp.controllers', 'cityApp.factories', 'ngRoute'])
 
 .config(['$routeProvider', function ($routeProvider) {
 
@@ -16,14 +16,17 @@ angular.module('cityApp', ['cityApp.controllers', 'ngRoute'])
       .otherwise({
         redirectTo: '/'
       });
-
   }]);
 
-
-angular.module('cityApp.controllers', [])
-.controller('MainController', ['$scope', function($scope){
-	
-	$scope.cities = [
+/*
+	This is a Factory, it is an unique element (Singleton), that lives across the application.
+	This is a great feature because you can read, share, use and update this information from different controllers
+	by just injecting the Factory name into the controller dependencies.
+*/
+angular.module('cityApp.factories', [])
+.factory('cityFactory', function(){
+	/* In this case, we are going to store our cities list into a variable within the Factory */
+	var cities = [
 		{'name': 'Amsterdam', 'country': 'Netherlands'},
 		{'name': 'Eindhoven', 'country': 'Netherlands'},
 		{'name': 'The Haage', 'country': 'Netherlands'},
@@ -47,13 +50,44 @@ angular.module('cityApp.controllers', [])
 		{'name': 'Gold Coast', 'country': 'Australia'}
 	];
 
+	/*Every Factory needs to return an object with the methods/functions that are going to be accesible from the controller where the Factory is injected.*/
+	return {
+		/*Each object property is a function, in this case getAll will return the cities array.*/
+		getAll: function(){
+			return cities;
+		},
+		/*AddCity will receive 2 parameters and add a new city-country into the array*/
+		addCity: function(_city, _country){
+			cities.push({'name': _city, 'country': _country});
+		}
+	}
+});
+
+
+angular.module('cityApp.controllers', [])
+//-- Notice that 'cityFactory' is being injected as dependency
+.controller('MainController', ['$scope', 'cityFactory', function($scope, cityFactory){
+	//-- Now we can just equal $scope.cities to what is stored in the Factory.
+	$scope.cities = cityFactory.getAll();
+
 }])
 
-.controller('AddCityController', ['$scope', function($scope){
+//-- Notice that 'cityFactory' is being injected as dependency
+.controller('AddCityController', ['$scope', 'cityFactory',  function($scope, cityFactory){
 	
+	//--Now we can just use the addCity function that is defined into the Factory
+	$scope.addCity = function(_city, _country){
+		cityFactory.addCity(_city, _country);
+		$scope.cityToAdd = "";
+		$scope.countryToAdd = "";
+	};
+
+	//--This is how the function was working before using factories.
+	/*
 	$scope.addCity = function(_city, _country){
 		$scope.cities.push({'name': _city, 'country': _country});
 		$scope.cityToAdd = "";
 		$scope.countryToAdd = "";
 	};
+	*/
 }]);
