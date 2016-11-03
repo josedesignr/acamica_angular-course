@@ -25,8 +25,8 @@ angular.module('cityApp', ['cityApp.controllers', 'cityApp.factories', 'ngRoute'
 */
 angular.module('cityApp.factories', [])
 .factory('cityFactory', function($http){
-	//-- In this case, we are going to store our cities list into a variable within the Factory 
 	
+	//-- In this case, we are going to store our cities list into a variable within the Factory 
 	/*
 	var cities = [
 		{"name": "Amsterdam", "country": "Netherlands"},
@@ -54,8 +54,8 @@ angular.module('cityApp.factories', [])
 	/*Every Factory needs to return an object with the methods/functions that are going to be accesible from the controller where the Factory is injected.*/
 	return {
 		/*Each object property is a function, in this case getAll will return the cities array.*/
-		getAll: function(){
-			return cities;
+		getAll: function(callback){
+			$http.get('json/cities.json').success(callback);
 		},
 
 		/*AddCity will receive 2 parameters and add a new city-country into the array*/
@@ -69,10 +69,9 @@ angular.module('cityApp.factories', [])
 angular.module('cityApp.controllers', [])
 //-- Notice that 'cityFactory' is being injected as dependency
 .controller('MainController', ['$scope', 'cityFactory', '$http', function($scope, cityFactory, $http){
-	//-- Now we can just equal $scope.cities to what is stored in the Factory.
-	//$scope.cities = cityFactory.getAll();
-
-	$http.get('json/cities.json').success(function(data) {
+	
+	//-- Now we can just call the getAll function in the cityFactory, and ask for the data in the callback
+	cityFactory.getAll(function(data){
 		$scope.cities = data;
 	});
 }])
