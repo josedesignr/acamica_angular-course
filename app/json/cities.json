@@ -1,0 +1,23 @@
+[
+	{"name": "Amsterdam", "country": "Netherlands"},
+	{"name": "Eindhoven", "country": "Netherlands"},
+	{"name": "The Haage", "country": "Netherlands"},
+	{"name": "Brussels", "country": "Belgium"},
+	{"name": "Brugge", "country": "Belgium"},
+	{"name": "Hamburg", "country": "Germany"},
+	{"name": "Düsseldorf", "country": "Germany"},
+	{"name": "Köln", "country": "Germany"},
+	{"name": "Venice", "country": "Italy"},
+	{"name": "Firenze", "country": "Italy"},
+	{"name": "Milano", "country": "Italy"},
+	{"name": "Paris", "country": "France"},
+	{"name": "San Francisco", "country": "US"},
+	{"name": "Dallas", "country": "US"},
+	{"name": "Miami", "country": "US"},
+	{"name": "Los Angeles", "country": "US"},
+	{"name": "New York", "country": "US"},
+	{"name": "Brisbane", "country": "Australia"},
+	{"name": "Sydney", "country": "Australia"},
+	{"name": "Melbourne", "country": "Australia"},
+	{"name": "Gold Coast", "country": "Australia"}
+]
